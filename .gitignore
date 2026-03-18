@@ -1,0 +1,42 @@
+# Virtual environments
+venv/
+.venv/
+
+# Cloned repos (not ours)
+metaflow/
+metaflow-service/
+my-metaflow/
+metaflow_agent/
+
+# Local metaflow datastore
+.metaflow/
+
+# macOS
+.DS_Store
+
+# LaTeX build artifacts
+docs/*.aux
+docs/*.log
+docs/*.fls
+docs/*.fdb_latexmk
+docs/*.out
+docs/*.synctex.gz
+docs/*.toc
+
+# Reference materials (not ours to publish)
+assets/
+docs/valay_pydata_presentation.pdf
+
+# One-off fix scripts
+docs/fix_code_blocks.py
+docs/insert_dag.py
+
+# Old PDF export of presentation (pptx is source of truth)
+docs/GSoC_2026_Agent_Friendly_Metaflow.pdf
+
+# Python
+__pycache__/
+*.pyc
+
+# Claude Code settings
+.claude/

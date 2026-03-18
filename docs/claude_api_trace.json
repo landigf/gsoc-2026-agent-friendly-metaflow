@@ -1,0 +1,308 @@
+{
+  "api_call": {
+    "model": "claude-sonnet-4-20250514",
+    "input_tokens": 132,
+    "output_tokens": 66,
+    "api_time_ms": 3050,
+    "prompt": "You have access to the Metaflow Python Client API. The metadata service is running at localhost:8080.\n\nThe environment is already configured:\n- METAFLOW_SERVICE_URL=http://localhost:8080\n- METAFLOW_DEFAULT_METADATA=service\n\nWrite a Python script that answers: \"Which tasks failed in my latest ForeachFlow run?\"\n\nUse only the standard Metaflow Client API (Flow, Run, Step, Task). \nReturn ONLY the Python code, no explanation. The script should print the failed task pathspecs.",
+    "generated_code": "from metaflow import Flow\n\nflow = Flow('ForeachFlow')\nlatest_run = flow.latest_run\n\nfor step in latest_run:\n    for task in step:\n        if not task.successful:\n            print(task.pathspec)"
+  },
+  "execution": {
+    "http_calls": 57,
+    "execution_time_ms": 2074,
+    "breakdown": {
+      "GET .../flows/...": 1,
+      "GET .../runs/...": 2,
+      "GET .../steps/...": 1,
+      "GET .../tasks/...": 2,
+      "GET .../artifacts/...": 51
+    },
+    "full_trace": [
+      {
+        "offset_ms": 0,
+        "method": "GET",
+        "path": "/flows/ForeachFlow"
+      },
+      {
+        "offset_ms": 13,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs"
+      },
+      {
+        "offset_ms": 16,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs"
+      },
+      {
+        "offset_ms": 18,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps"
+      },
+      {
+        "offset_ms": 21,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks"
+      },
+      {
+        "offset_ms": 26,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/128/artifacts/_success"
+      },
+      {
+        "offset_ms": 29,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/127/artifacts/_success"
+      },
+      {
+        "offset_ms": 31,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/126/artifacts/_success"
+      },
+      {
+        "offset_ms": 33,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/125/artifacts/_success"
+      },
+      {
+        "offset_ms": 73,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/124/artifacts/_success"
+      },
+      {
+        "offset_ms": 78,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/123/artifacts/_success"
+      },
+      {
+        "offset_ms": 171,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/122/artifacts/_success"
+      },
+      {
+        "offset_ms": 178,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/121/artifacts/_success"
+      },
+      {
+        "offset_ms": 274,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/120/artifacts/_success"
+      },
+      {
+        "offset_ms": 283,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/119/artifacts/_success"
+      },
+      {
+        "offset_ms": 373,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/118/artifacts/_success"
+      },
+      {
+        "offset_ms": 378,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/117/artifacts/_success"
+      },
+      {
+        "offset_ms": 384,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/116/artifacts/_success"
+      },
+      {
+        "offset_ms": 472,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/115/artifacts/_success"
+      },
+      {
+        "offset_ms": 476,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/114/artifacts/_success"
+      },
+      {
+        "offset_ms": 479,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/113/artifacts/_success"
+      },
+      {
+        "offset_ms": 482,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/112/artifacts/_success"
+      },
+      {
+        "offset_ms": 485,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/111/artifacts/_success"
+      },
+      {
+        "offset_ms": 489,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/110/artifacts/_success"
+      },
+      {
+        "offset_ms": 491,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/109/artifacts/_success"
+      },
+      {
+        "offset_ms": 495,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/108/artifacts/_success"
+      },
+      {
+        "offset_ms": 571,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/107/artifacts/_success"
+      },
+      {
+        "offset_ms": 574,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/106/artifacts/_success"
+      },
+      {
+        "offset_ms": 579,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/105/artifacts/_success"
+      },
+      {
+        "offset_ms": 582,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/104/artifacts/_success"
+      },
+      {
+        "offset_ms": 585,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/103/artifacts/_success"
+      },
+      {
+        "offset_ms": 588,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/102/artifacts/_success"
+      },
+      {
+        "offset_ms": 629,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/101/artifacts/_success"
+      },
+      {
+        "offset_ms": 671,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/100/artifacts/_success"
+      },
+      {
+        "offset_ms": 675,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/99/artifacts/_success"
+      },
+      {
+        "offset_ms": 680,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/98/artifacts/_success"
+      },
+      {
+        "offset_ms": 683,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/97/artifacts/_success"
+      },
+      {
+        "offset_ms": 731,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/96/artifacts/_success"
+      },
+      {
+        "offset_ms": 776,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/95/artifacts/_success"
+      },
+      {
+        "offset_ms": 833,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/94/artifacts/_success"
+      },
+      {
+        "offset_ms": 932,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/93/artifacts/_success"
+      },
+      {
+        "offset_ms": 977,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/92/artifacts/_success"
+      },
+      {
+        "offset_ms": 1076,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/91/artifacts/_success"
+      },
+      {
+        "offset_ms": 1176,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/90/artifacts/_success"
+      },
+      {
+        "offset_ms": 1277,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/89/artifacts/_success"
+      },
+      {
+        "offset_ms": 1377,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/88/artifacts/_success"
+      },
+      {
+        "offset_ms": 1473,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/87/artifacts/_success"
+      },
+      {
+        "offset_ms": 1479,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/86/artifacts/_success"
+      },
+      {
+        "offset_ms": 1482,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/85/artifacts/_success"
+      },
+      {
+        "offset_ms": 1485,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/84/artifacts/_success"
+      },
+      {
+        "offset_ms": 1488,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/83/artifacts/_success"
+      },
+      {
+        "offset_ms": 1492,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/82/artifacts/_success"
+      },
+      {
+        "offset_ms": 1577,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/81/artifacts/_success"
+      },
+      {
+        "offset_ms": 1675,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/80/artifacts/_success"
+      },
+      {
+        "offset_ms": 1774,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/process/tasks/79/artifacts/_success"
+      },
+      {
+        "offset_ms": 1875,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/start/tasks"
+      },
+      {
+        "offset_ms": 1975,
+        "method": "GET",
+        "path": "/flows/ForeachFlow/runs/8/steps/start/tasks/78/artifacts/_success"
+      }
+    ]
+  }
+}
