@@ -40,3 +40,5 @@ __pycache__/
 
 # Claude Code settings
 .claude/
+docs/add_starthack_slide.py
+docs/~$*
