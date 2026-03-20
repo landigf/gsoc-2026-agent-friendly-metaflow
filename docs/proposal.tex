@@ -70,19 +70,19 @@
 
 \begin{titlepage}
 \begin{center}
-\vspace*{3cm}
+\vspace*{1.5cm}
 
 {\Huge\bfseries\color{mfpurple} Agent-Friendly\\[0.3em] Metaflow Client}
 
-\vspace{1em}
+\vspace{0.8em}
 
 {\Large Analyzing and Addressing Client API Inefficiencies}
 
-\vspace{2em}
+\vspace{1.5em}
 
 {\large GSoC 2026 Proposal}
 
-\vspace{3em}
+\vspace{2em}
 
 \begin{tabular}{rl}
 \textbf{Applicant:} & Gennaro Francesco Landi \\
@@ -92,13 +92,13 @@
 \textbf{Date:} & \today \\
 \end{tabular}
 
-\vspace{3em}
+\vspace{2em}
 
 \colorbox{mfbg}{%
 \begin{minipage}{0.85\textwidth}
-\centering\vspace{0.8em}
+\centering\vspace{0.6em}
 \textbf{Verified:} We pointed an LLM agent at a ForeachFlow and asked it to find failed tasks. It wrote 6 lines of Client API code that triggered \textbf{57 HTTP calls} (51 artifact fetches to unpickle booleans). The metadata service answers the same question in \textbf{4 calls} via \texttt{filter\_tasks\_by\_metadata}. Full API trace attached.
-\vspace{0.8em}
+\vspace{0.6em}
 \end{minipage}%
 }
 
@@ -131,7 +131,7 @@ I used Metaflow at StartHack, a 36-hour hackathon, but \textit{not} for its typi
 
 What this showed: Metaflow's value extends beyond ML --- the DAG visualization, repeatable execution, and cloud deployment worked for a compliance/decision use case, all built in under 36 hours.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.35\textwidth]{pitch_metaflow.png}
 \hfill
@@ -231,7 +231,7 @@ To make this concrete, I built a Metaflow flow that benchmarks itself. Three par
 
 Same failed task, every time. Path C is the target: \textbf{8.6$\times$ faster}, works everywhere, zero new infrastructure. UI Backend is a bonus when available, not a dependency.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.92\textwidth]{benchmark_dag.png}
 \caption*{\small\color{mfgray} BenchmarkThreePaths — three parallel branches, one joined result. Colours match the benchmark table above.}
