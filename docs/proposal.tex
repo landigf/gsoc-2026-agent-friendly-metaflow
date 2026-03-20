@@ -125,6 +125,18 @@ My interest is in how AI agent workloads stress infrastructure designed for huma
     \item \textbf{Open source}: \href{https://github.com/landigf}{github.com/landigf}
 \end{itemize}
 
+\subsection{Recent: StartHack 2026 --- Winner (Internal Challenge)}
+
+I used Metaflow at StartHack, a 36-hour hackathon, but \textit{not} for its typical ML workflow use case. Our team needed a decision-process pipeline with auditing, verification, and consistency guarantees. I reached for Metaflow because (1) we needed a DAG to enforce coherence across decision stages, (2) we needed something deployable to the cloud fast, and (3) Metaflow's Azure integration made that trivial. We won the internal challenge and pitched to investors in the finals.
+
+What this showed: Metaflow's value extends beyond ML --- the DAG visualization, repeatable execution, and cloud deployment worked for a compliance/decision use case, all built in under 36 hours.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{starthack_win.jpg}
+\caption*{\small\color{mfgray} StartHack 2026 winning ceremony.}
+\end{figure}
+
 \subsection{Why This Project}
 
 I asked Claude Sonnet (via the Anthropic API) to find a failed task in a Metaflow flow. It wrote correct code. That code made 57 HTTP requests. The UI Backend answers the same question in 2. Both read the same database. That gap shouldn't exist.
