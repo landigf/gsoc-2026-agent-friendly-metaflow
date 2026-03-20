@@ -1,6 +1,6 @@
 {
   "api_call": {
-    "model": "claude-sonnet-4-20250514",
+    "model": "llm-agent",
     "input_tokens": 132,
     "output_tokens": 66,
     "api_time_ms": 3050,

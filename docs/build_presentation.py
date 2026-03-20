@@ -746,7 +746,7 @@ add_text(slide, 1.5, 2.5, 10, 2,
          "Live Demo",
          size=48, bold=True, align=PP_ALIGN.CENTER)
 add_text(slide, 1.5, 4.0, 10, 1.5,
-         "Claude debugging a Metaflow flow\n"
+         "LLM agent debugging a Metaflow flow\n"
          "Side-by-side: naive path vs smart path\n"
          "Real HTTP calls, real Metaflow UI, real numbers",
          size=20, color=TEXT_LIGHT, align=PP_ALIGN.CENTER)

@@ -9,7 +9,7 @@ Hi,
 
 I'm [name], MSc CS at ETH Zurich. Applying for the Agent-Friendly Metaflow Client project (mentor: Valay Dave).
 
-I asked Claude Sonnet via the API: "Which tasks failed in my latest ForeachFlow run?" It wrote 6 lines of Client API code, ran them, and the answer came back correct — but it took 57 HTTP calls and 2 seconds. 51 of those calls are `GET .../artifacts/_success`, one per task, each hitting the datastore to unpickle a boolean. The full API trace is in the attached proposal.
+I pointed an LLM agent at a ForeachFlow and asked: "Which tasks failed in my latest run?" It wrote 6 lines of Client API code, ran them, and the answer came back correct — but it took 57 HTTP calls and 2 seconds. 51 of those calls are `GET .../artifacts/_success`, one per task, each hitting the datastore to unpickle a boolean. The full API trace is in the attached proposal.
 
 The metadata service already has what it needs to fix this. `filter_tasks_by_metadata` (service >= 2.5.0) queries `attempt_ok` directly from the metadata table — same answer, 4 calls, no datastore reads. The DB layer supports LIMIT/ORDER BY via `find_records()` but the HTTP endpoints don't expose them.
 
@@ -19,7 +19,7 @@ Attached:
 - Full proposal (PDF)
 - Presentation (21 slides)
 - 60-second demo video: [YouTube link]
-- Claude API trace (JSON) — the raw proof
+- LLM API trace (JSON) — the raw proof
 
 I'm in #gsoc on Slack.
 

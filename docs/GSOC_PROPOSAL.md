@@ -22,7 +22,7 @@ My research at EASL focuses on infrastructure pressure from AI and agentic workl
 
 **Why this project:**
 
-I've been using Metaflow for ML experiment tracking and noticed that when AI agents (Claude Code, Cursor) interact with the Client API, they trigger far more HTTP calls than a human would. I traced the root cause through the codebase and discovered that the metadata service already has the infrastructure to answer agent queries efficiently — it's just not exposed. This proposal is based on that hands-on investigation, not on reading the project description.
+I've been using Metaflow for ML experiment tracking and noticed that when AI agents interact with the Client API, they trigger far more HTTP calls than a human would. I traced the root cause through the codebase and discovered that the metadata service already has the infrastructure to answer agent queries efficiently — it's just not exposed. This proposal is based on that hands-on investigation, not on reading the project description.
 
 ---
 
@@ -168,7 +168,7 @@ Metadata service changes (metaflow-service) and client changes (metaflow) need c
 | Week | Deliverable |
 |------|------------|
 | 9 | Agent simulation framework: 5 scripted scenarios measuring calls + latency, old vs new. |
-| 10 | Tool-calling integration: JSON schema / MCP tool definitions. Test with Claude to validate. |
+| 10 | Tool-calling integration: JSON schema / MCP tool definitions. Test with an LLM agent to validate. |
 | 11 | Robustness: 1000+ task foreach, network failures, partial availability, concurrent access. |
 | 12 | Performance validation on realistic dataset. Profiling. Comparison report. |
 
@@ -204,7 +204,7 @@ Metadata service changes (metaflow-service) and client changes (metaflow) need c
 
 ## Disclosure
 
-AI tools (Claude Code) were used to assist with:
+AI tools were used to assist with:
 - Codebase exploration and search
 - Benchmark script scaffolding
 - Presentation generation (python-pptx)

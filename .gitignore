@@ -38,7 +38,7 @@ docs/GSoC_2026_Agent_Friendly_Metaflow.pdf
 __pycache__/
 *.pyc
 
-# Claude Code settings
+# IDE / tool settings
 .claude/
 docs/add_starthack_slide.py
 docs/~$*

@@ -171,8 +171,8 @@ This project bridges the gap between what Metaflow's UI Backend can do (rich que
 | Research MCP (Model Context Protocol) tool definitions | 4h | Decision on MCP vs JSON schema |
 | Create machine-readable function schemas | 6h | `schemas/agent_tools.json` |
 | Write system prompt fragment for agents | 4h | `docs/AGENT_SYSTEM_PROMPT.md` |
-| Test with Claude: give it only the schema + docs, ask it to debug a flow | 6h | Transcript showing effective usage |
-| Iterate on schema/prompt based on Claude's behavior | 2h | Refined schema |
+| Test with an LLM: give it only the schema + docs, ask it to debug a flow | 6h | Transcript showing effective usage |
+| Iterate on schema/prompt based on the agent's behavior | 2h | Refined schema |
 
 **Tool schema format:**
 
@@ -223,7 +223,7 @@ This project bridges the gap between what Metaflow's UI Backend can do (rich que
 - Agent simulation framework with 5 scenarios
 - Machine-readable tool schemas (JSON)
 - System prompt fragment for LLM agents
-- Claude integration test transcript
+- LLM integration test transcript
 - Robustness test suite
 - Performance report on realistic data
 

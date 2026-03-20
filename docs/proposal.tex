@@ -97,13 +97,13 @@
 \colorbox{mfbg}{%
 \begin{minipage}{0.85\textwidth}
 \centering\vspace{0.8em}
-\textbf{Verified:} We asked Claude Sonnet via the API to find failed tasks in a ForeachFlow. It wrote 6 lines of Client API code that triggered \textbf{57 HTTP calls} (51 artifact fetches to unpickle booleans). The metadata service answers the same question in \textbf{4 calls} via \texttt{filter\_tasks\_by\_metadata}. Full API trace attached.
+\textbf{Verified:} We pointed an LLM agent at a ForeachFlow and asked it to find failed tasks. It wrote 6 lines of Client API code that triggered \textbf{57 HTTP calls} (51 artifact fetches to unpickle booleans). The metadata service answers the same question in \textbf{4 calls} via \texttt{filter\_tasks\_by\_metadata}. Full API trace attached.
 \vspace{0.8em}
 \end{minipage}%
 }
 
 \vfill
-{\small\color{mfgray} Presentation, demo video, benchmark code, and documentation attached.}
+{\small\color{mfgray} \href{https://drive.google.com/file/d/1kOcsjZq4CIPGR2IsXiEggBKzrgb08ME4/view?usp=sharing}{Presentation (Google Drive)}, demo video, benchmark code, and documentation attached.}
 \end{center}
 \end{titlepage}
 
@@ -139,7 +139,7 @@ What this showed: Metaflow's value extends beyond ML --- the DAG visualization, 
 
 \subsection{Why This Project}
 
-I asked Claude Sonnet (via the Anthropic API) to find a failed task in a Metaflow flow. It wrote correct code. That code made 57 HTTP requests. The UI Backend answers the same question in 2. Both read the same database. That gap shouldn't exist.
+I pointed an LLM agent at a Metaflow flow and asked it to find a failed task. It wrote correct code. That code made 57 HTTP requests. The UI Backend answers the same question in 2. Both read the same database. That gap shouldn't exist.
 
 I dug into the codebase to understand why it does. This proposal is the result --- not a restatement of the project description, but findings from actually instrumenting the code and running benchmarks.
 
@@ -150,7 +150,7 @@ I dug into the codebase to understand why it does. This proposal is the result -
 
 \subsection{The Problem}
 
-I asked Claude Sonnet (via the Anthropic API) a simple question: ``which tasks failed in my latest ForeachFlow run?'' It wrote this code --- unprompted, in 66 tokens:
+I asked an LLM agent a simple question: ``which tasks failed in my latest ForeachFlow run?'' It wrote this code --- unprompted:
 
 \begin{lstlisting}[language=Python]
 from metaflow import Flow
@@ -169,12 +169,12 @@ Correct answer. But here's the cost:
 \toprule
 & \textbf{HTTP Calls} & \textbf{Datastore Reads} & \textbf{Time} \\
 \midrule
-What Claude's code costs & 57 & 50 & 2,074ms \\
+What the agent's code costs & 57 & 50 & 2,074ms \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-51 of those 57 calls are \texttt{GET .../artifacts/\_success} --- one per task, each hitting the datastore to unpickle a boolean. This isn't Claude being dumb. This is the \textbf{only way} to check task success with the current Client API. There is no \texttt{run.failed\_tasks()}. The full HTTP trace is in the attached \texttt{claude\_api\_trace.json}.
+51 of those 57 calls are \texttt{GET .../artifacts/\_success} --- one per task, each hitting the datastore to unpickle a boolean. This isn't the agent being dumb. This is the \textbf{only way} to check task success with the current Client API. There is no \texttt{run.failed\_tasks()}. The full HTTP trace is in the attached \texttt{llm\_api\_trace.json}.
 
 \subsection{Three Discoveries}
 
@@ -380,7 +380,7 @@ if cls._supports_query_params is None:
 
 \textbf{Availability:} 22+ hours/week (350h $\div$ 16 weeks). No other employment during GSoC. Exam periods and vacations will be disclosed to the mentor in advance.
 
-\textbf{AI disclosure:} Claude Code was used for codebase exploration, benchmark scaffolding, and document drafting. All code, analysis, and architectural decisions are my own. I can explain every line and design choice independently.
+\textbf{AI disclosure:} AI tools were used for codebase exploration, benchmark scaffolding, and document drafting. All code, analysis, and architectural decisions are my own. I can explain every line and design choice independently.
 
 
 \end{document}
