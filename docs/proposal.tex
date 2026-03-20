@@ -310,7 +310,7 @@ result = find_failures("ForeachFlow/8")
 recent = get_recent_runs("ForeachFlow", limit=5, status="failed")
 \end{lstlisting}
 
-Six utility functions, each with internal routing:
+Eight utility functions, each with version-gated smart routing:
 \begin{itemize}[nosep]
     \item \texttt{find\_failures()}: uses \texttt{filter\_tasks\_by\_metadata("attempt\_ok", "False")}
     \item \texttt{get\_recent\_runs()}: bounded listing with optional status filter
@@ -318,6 +318,8 @@ Six utility functions, each with internal routing:
     \item \texttt{run\_summary()}: structured overview of steps, tasks, failures
     \item \texttt{tail\_logs()}: last N lines of a task's stdout/stderr
     \item \texttt{get\_runs\_since()}: time-filtered listing
+    \item \texttt{compare\_runs()}: diff two runs by step timing, task counts, failure rates
+    \item \texttt{detect\_regressions()}: find steps whose duration increased across recent runs
 \end{itemize}
 
 \subsection{Metadata Service Changes ($\sim$150 lines)}
@@ -363,6 +365,45 @@ if cls._supports_query_params is None:
 \end{itemize}
 
 
+\subsection{MCP Tool Server}
+
+The extension package alone helps Python users. To make Metaflow truly \textit{agent-friendly}, the utilities need to be discoverable by any LLM agent without custom integration. We build an MCP (Model Context Protocol) server that exposes all 8 utility functions as tools:
+
+\begin{lstlisting}[language=Python]
+# Any MCP-compatible agent discovers and calls these automatically
+{"name": "find_failures",
+ "description": "Find failed tasks in a Metaflow run",
+ "parameters": {"run_pathspec": "str", "max_tasks": "int=100"},
+ "cost": "2-3 HTTP calls (fast path), O(tasks) calls (fallback)"}
+\end{lstlisting}
+
+Each tool schema includes cost annotations so agents can reason about efficiency. System prompt fragments guide agents toward bounded queries. The MCP server auto-detects available infrastructure (metadata service version, UI Backend presence) and routes queries through the optimal path.
+
+\subsection{Agent Simulation Framework}
+
+Not a one-off benchmark but a reusable framework with 5 scripted scenarios that measure real agent behavior:
+
+\begin{enumerate}[nosep]
+    \item ``Which of my last 10 runs failed?'' (run filtering)
+    \item ``What tasks failed and what were their logs?'' (failure diagnosis)
+    \item ``Show runs from the last 24h that took > 5 minutes'' (time-range query)
+    \item ``Compare this run to the previous successful one'' (cross-run diff)
+    \item ``Is this step getting slower over time?'' (regression detection)
+\end{enumerate}
+
+Each scenario runs against both the naive Client API and the extension package, measuring HTTP call counts, latency, and bytes transferred. The framework doubles as a regression test: if a code change increases call counts, the simulation catches it.
+
+\subsection{Cross-run Analytics}
+
+Queries that don't exist today and require new thinking, not just wrapping existing endpoints:
+
+\begin{itemize}[nosep]
+    \item \texttt{compare\_runs(run\_a, run\_b)}: structured diff of step timings, task counts, failure rates, artifact sizes. Answers ``what changed between these two runs?''
+    \item \texttt{detect\_regressions(flow, n=10)}: analyze the last N runs to find steps whose median duration increased significantly. Answers ``is this step getting slower?''
+\end{itemize}
+
+These are the kinds of questions agents ask repeatedly when debugging production workflows. Today, answering them requires dozens of API calls assembled manually. The extension package makes them single-function calls with bounded cost.
+
 % ═══════════════════════════════════════════════════════════
 \section{Timeline}
 % ═══════════════════════════════════════════════════════════
@@ -371,14 +412,14 @@ if cls._supports_query_params is None:
 \toprule
 \textbf{Phase} & \textbf{Goal} & \textbf{h} & \textbf{Milestone} \\
 \midrule
-1 (Wk 1--4)   & Extension package: 6 utility functions, unit + integration tests & 90 & Midterm checkpoint \\
-2 (Wk 5--8)   & Metadata service \texttt{\_limit}/\texttt{\_order} + provider version-gating & 90 & Core changes ready \\
-3 (Wk 9--12)  & Agent simulation (5 scenarios), MCP tool schemas & 90 & End-to-end validated \\
+1 (Wk 1--4)   & Extension package: 8 utility functions + cross-run analytics, unit + integration tests & 90 & Midterm checkpoint \\
+2 (Wk 5--8)   & Metadata service \texttt{\_limit}/\texttt{\_order} + provider version-gating + caching & 90 & Core changes ready \\
+3 (Wk 9--12)  & MCP tool server, agent simulation framework (5 scenarios), robustness testing & 90 & End-to-end validated \\
 4 (Wk 13--16) & User + agent docs, PR prep per CONTRIBUTING.md, final report & 80 & Submitted \\
 \bottomrule
 \end{tabularx}
 
-\textbf{Midterm checkpoint (Week 4):} Working extension package with 6 functions, all tested, benchmark showing improvement over the naive path. Each phase delivers standalone value:Phase 1 alone is a complete, usable deliverable.
+\textbf{Midterm checkpoint (Week 4):} Working extension package with 8 functions (including cross-run analytics), all tested, benchmark showing improvement over the naive path. Each phase delivers standalone value: Phase 1 alone is a complete, usable deliverable.
 
 \textbf{Risks:} Core Runtime changes require pre-approved issues per CONTRIBUTING.md:Phase 1 (extension package) requires no core changes and delivers full value independently. Status SQL complexity is mitigated by using the simplified \texttt{attempt\_ok} check (3 lines, 90\% coverage). Two-repo coordination is handled via version-gated detection.
 
