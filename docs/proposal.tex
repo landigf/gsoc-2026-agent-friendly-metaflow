@@ -125,11 +125,11 @@ My interest is in how AI agent workloads stress infrastructure designed for huma
     \item \textbf{Open source}: \href{https://github.com/landigf}{github.com/landigf}
 \end{itemize}
 
-\subsection{Recent: StartHack 2026 --- Winner (Internal Challenge)}
+\subsection{Recent: StartHack 2026:Winner (Internal Challenge)}
 
 I used Metaflow at StartHack, a 36-hour hackathon, but \textit{not} for its typical ML workflow use case. Our team needed a decision-process pipeline with auditing, verification, and consistency guarantees. I reached for Metaflow because (1) we needed a DAG to enforce coherence across decision stages, (2) we needed something deployable to the cloud fast, and (3) Metaflow's Azure integration made that trivial. We won the internal challenge and pitched to investors in the finals.
 
-What this showed: Metaflow's value extends beyond ML --- the DAG visualization, repeatable execution, and cloud deployment worked for a compliance/decision use case, all built in under 36 hours.
+What this showed: Metaflow's value extends beyond ML:the DAG visualization, repeatable execution, and cloud deployment worked for a compliance/decision use case, all built in under 36 hours.
 
 \begin{figure}[h!]
 \centering
@@ -150,7 +150,7 @@ What this showed: Metaflow's value extends beyond ML --- the DAG visualization, 
 
 I pointed an LLM agent at a Metaflow flow and asked it to find a failed task. It wrote correct code. That code made 57 HTTP requests. The UI Backend answers the same question in 2. Both read the same database. That gap shouldn't exist.
 
-I dug into the codebase to understand why it does. This proposal is the result --- not a restatement of the project description, but findings from actually instrumenting the code and running benchmarks.
+I dug into the codebase to understand why it does. This proposal is the result:not a restatement of the project description, but findings from actually instrumenting the code and running benchmarks.
 
 
 % ═══════════════════════════════════════════════════════════
@@ -159,7 +159,7 @@ I dug into the codebase to understand why it does. This proposal is the result -
 
 \subsection{The Problem}
 
-I asked an LLM agent a simple question: ``which tasks failed in my latest ForeachFlow run?'' It wrote this code --- unprompted:
+I asked an LLM agent a simple question: ``which tasks failed in my latest ForeachFlow run?'' It wrote this code:unprompted:
 
 \begin{lstlisting}[language=Python]
 from metaflow import Flow
@@ -183,7 +183,7 @@ What the agent's code costs & 57 & 50 & 2,074ms \\
 \end{tabular}
 \end{center}
 
-51 of those 57 calls are \texttt{GET .../artifacts/\_success} --- one per task, each hitting the datastore to unpickle a boolean. This isn't the agent being dumb. This is the \textbf{only way} to check task success with the current Client API. There is no \texttt{run.failed\_tasks()}. The full HTTP trace is in the attached \texttt{llm\_api\_trace.json}.
+51 of those 57 calls are \texttt{GET .../artifacts/\_success}:one per task, each hitting the datastore to unpickle a boolean. This isn't the agent being dumb. This is the \textbf{only way} to check task success with the current Client API. There is no \texttt{run.failed\_tasks()}. The full HTTP trace is in the attached \texttt{llm\_api\_trace.json}.
 
 \subsection{Three Discoveries}
 
@@ -202,7 +202,7 @@ ServiceMetadataProvider.filter_tasks_by_metadata(
 
 The Metaflow runtime writes \texttt{attempt\_ok} to the metadata table when a task finishes. This queries it directly. One call. No artifacts, no datastore, no unpickling.
 
-\subsubsection{The DB layer already supports pagination --- it's just not wired up}
+\subsubsection{The DB layer already supports pagination:it's just not wired up}
 
 \texttt{find\_records()} in \texttt{postgres\_async\_db.py} takes \texttt{limit}, \texttt{offset}, and \texttt{order} parameters. The HTTP endpoints don't pass them through. Wiring \texttt{?\_limit=10\&\_order=-ts\_epoch} is $\sim$15 lines per endpoint. The plumbing exists, the faucet is just turned off.
 
@@ -263,7 +263,7 @@ Same failed task, every time. Path C is the target: \textbf{8.6$\times$ faster},
 \end{tabular}
 \end{center}
 
-UC3 dominates --- 70\% of all calls come from checking task status. UC4 and UC5 are a different problem: not too many calls, but \textbf{too much data}. \texttt{task.stdout} dumps 50MB when you need 10 lines. There's no ``give me just the artifact names'' without iterating everything. The fix for those is bounded access, not fewer calls.
+UC3 dominates:70\% of all calls come from checking task status. UC4 and UC5 are a different problem: not too many calls, but \textbf{too much data}. \texttt{task.stdout} dumps 50MB when you need 10 lines. There's no ``give me just the artifact names'' without iterating everything. The fix for those is bounded access, not fewer calls.
 
 
 % ═══════════════════════════════════════════════════════════
@@ -312,12 +312,12 @@ recent = get_recent_runs("ForeachFlow", limit=5, status="failed")
 
 Six utility functions, each with internal routing:
 \begin{itemize}[nosep]
-    \item \texttt{find\_failures()} --- uses \texttt{filter\_tasks\_by\_metadata("attempt\_ok", "False")}
-    \item \texttt{get\_recent\_runs()} --- bounded listing with optional status filter
-    \item \texttt{batch\_run\_status()} --- batch status for recent runs
-    \item \texttt{run\_summary()} --- structured overview of steps, tasks, failures
-    \item \texttt{tail\_logs()} --- last N lines of a task's stdout/stderr
-    \item \texttt{get\_runs\_since()} --- time-filtered listing
+    \item \texttt{find\_failures()}:uses \texttt{filter\_tasks\_by\_metadata("attempt\_ok", "False")}
+    \item \texttt{get\_recent\_runs()}:bounded listing with optional status filter
+    \item \texttt{batch\_run\_status()}:batch status for recent runs
+    \item \texttt{run\_summary()}:structured overview of steps, tasks, failures
+    \item \texttt{tail\_logs()}:last N lines of a task's stdout/stderr
+    \item \texttt{get\_runs\_since()}:time-filtered listing
 \end{itemize}
 
 \subsection{Metadata Service Changes ($\sim$150 lines)}
@@ -378,9 +378,9 @@ if cls._supports_query_params is None:
 \bottomrule
 \end{tabularx}
 
-\textbf{Midterm checkpoint (Week 4):} Working extension package with 6 functions, all tested, benchmark showing improvement over the naive path. Each phase delivers standalone value --- Phase 1 alone is a complete, usable deliverable.
+\textbf{Midterm checkpoint (Week 4):} Working extension package with 6 functions, all tested, benchmark showing improvement over the naive path. Each phase delivers standalone value:Phase 1 alone is a complete, usable deliverable.
 
-\textbf{Risks:} Core Runtime changes require pre-approved issues per CONTRIBUTING.md --- Phase 1 (extension package) requires no core changes and delivers full value independently. Status SQL complexity is mitigated by using the simplified \texttt{attempt\_ok} check (3 lines, 90\% coverage). Two-repo coordination is handled via version-gated detection.
+\textbf{Risks:} Core Runtime changes require pre-approved issues per CONTRIBUTING.md:Phase 1 (extension package) requires no core changes and delivers full value independently. Status SQL complexity is mitigated by using the simplified \texttt{attempt\_ok} check (3 lines, 90\% coverage). Two-repo coordination is handled via version-gated detection.
 
 
 % ═══════════════════════════════════════════════════════════
