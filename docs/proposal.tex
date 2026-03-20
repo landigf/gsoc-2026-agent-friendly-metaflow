@@ -312,12 +312,12 @@ recent = get_recent_runs("ForeachFlow", limit=5, status="failed")
 
 Six utility functions, each with internal routing:
 \begin{itemize}[nosep]
-    \item \texttt{find\_failures()}:uses \texttt{filter\_tasks\_by\_metadata("attempt\_ok", "False")}
-    \item \texttt{get\_recent\_runs()}:bounded listing with optional status filter
-    \item \texttt{batch\_run\_status()}:batch status for recent runs
-    \item \texttt{run\_summary()}:structured overview of steps, tasks, failures
-    \item \texttt{tail\_logs()}:last N lines of a task's stdout/stderr
-    \item \texttt{get\_runs\_since()}:time-filtered listing
+    \item \texttt{find\_failures()}: uses \texttt{filter\_tasks\_by\_metadata("attempt\_ok", "False")}
+    \item \texttt{get\_recent\_runs()}: bounded listing with optional status filter
+    \item \texttt{batch\_run\_status()}: batch status for recent runs
+    \item \texttt{run\_summary()}: structured overview of steps, tasks, failures
+    \item \texttt{tail\_logs()}: last N lines of a task's stdout/stderr
+    \item \texttt{get\_runs\_since()}: time-filtered listing
 \end{itemize}
 
 \subsection{Metadata Service Changes ($\sim$150 lines)}
