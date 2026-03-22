@@ -5,4 +5,4 @@
 **Mentor:** Valay Dave, Outerbounds
 
 - [Proposal (PDF)](https://drive.google.com/file/d/1zz3KAlLTVlVkiipJeOse5vcprl2MEO0I/view?usp=sharing)
-- [Presentation (Google Slides)](https://drive.google.com/file/d/1kOcsjZq4CIPGR2IsXiEggBKzrgb08ME4/view?usp=drive_link)
+- [Presentation (PDF)](https://drive.google.com/file/d/1kOcsjZq4CIPGR2IsXiEggBKzrgb08ME4/view?usp=drive_link)
